@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      target: frontend
+    ports:
+      - "3001:3001"
+    command: npm run dev -- --host 0.0.0.0
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+      - node_modules:/app/frontend/node_modules
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      target: backend
+    ports:
+      - "3000:3000"
+    command: rails server -b 0.0.0.0
+    working_dir: /app/backend
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./backend:/app/backend
+      - node_modules:/app/backend/node_modules
+
+volumes:
+  node_modules:
+  db:
